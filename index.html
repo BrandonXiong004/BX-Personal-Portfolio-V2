@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>B. N. Xiong Personal Portfolio</title>
+  <link rel="stylesheet" href="CSS/style.css"/>
+</head>
+<body>
+  <div id="map-wrapper">
+    <!-- Background image - kept as an <img> for crisp scaling and accessibility -->
+    <img id="mapImage" src="Assets/ParchmentMapV2.png" alt="Hand-drawn parchment map" />
+
+    <!-- Transparent canvas sits on top for ambient animation -->
+    <canvas id="fxCanvas" aria-hidden="true"></canvas>
+
+  <!-- Simple modal for previewing label/content when clicking -->
+  <div id="panel" class="hidden" role="dialog" aria-modal="true">
+    <div class="panel-inner">
+      <button id="panel-close" aria-label="Close">✖</button>
+      <div id="panel-content"></div>
+    </div>
+  </div>
+
+  <!-- Hidden toolbox tip -->
+  <div id="tooltip" class="hidden" role="tooltip" aria-hidden="true"></div>
+
+  </div> <!-- end map-wrapper -->
+
+  <script src="JavaScript/map.js"></script>
+</body>
+</html>
