@@ -1,0 +1,269 @@
+/* ----------------------
+   ROOT VARIABLES
+----------------------- */
+
+:root {
+  --paper-texture: url('../Assets/paper/parchment.jpg');
+  --accent: #d6b37a;
+  --ink: #2b1b0f;
+}
+
+/* ----------------------
+   BASE LAYOUT
+----------------------- */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "EB Garamond", serif;
+  background: #a59b79;
+  overflow: hidden;
+}
+
+.book-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.book-container {
+  width: min(90vw, 1300px);
+  height: min(85vh, 900px);
+  position: relative;
+}
+
+/* ----------------------
+   BOOK (3D ENGINE)
+----------------------- */
+
+.book {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  perspective: 2000px;
+  transform-style: preserve-3d;
+}
+
+/* ----------------------
+   PAGE STYLING
+----------------------- */
+
+.page {
+  position: absolute;
+  inset: 0;
+
+  background: var(--paper-texture) center/cover no-repeat;
+  padding: 50px;
+  border-radius: 5px;
+
+  box-shadow:
+    inset 0 0 40px rgba(0,0,0,0.3),
+    0 10px 30px rgba(0,0,0,0.5);
+
+  backface-visibility: hidden;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+
+  transition: transform 0.6s ease;
+}
+
+
+/* The pages stack top-first */
+.page {
+  z-index: 100;
+}
+.page:nth-child(2) { z-index: 99; }
+.page:nth-child(3) { z-index: 98; }
+.page:nth-child(4) { z-index: 97; }
+.page:nth-child(5) { z-index: 96; }
+
+/* ----------------------
+   PAGE STATES
+----------------------- */
+
+/* Default: front-facing */
+.page:not(.flipped) {
+  transform: rotateY(0deg);
+}
+
+/* Flipped page */
+.page.flipped {
+  transform: rotateY(-180deg);
+}
+
+/* ----------------------
+   TITLES, DIVIDERS, CONTENT
+----------------------- */
+
+.page-title {
+  font-family: "IM Fell English", serif;
+  text-align: center;
+  font-size: 2.4rem;
+  margin-bottom: 20px;
+}
+
+.divider {
+  width: 70%;
+  height: 5px;
+  background: var(--accent);
+  margin: 0 auto 20px auto;
+}
+
+.portrait-frame {
+  width: 70%;
+  margin: 0 auto 20px auto;
+  border: 4px solid var(--accent);
+  aspect-ratio: 3/4;
+  overflow: hidden;
+}
+
+.stats-list {
+  list-style: none;
+  padding: 0;
+  font-size: 1.3rem;
+}
+
+/* -----------------------------
+   CORNER CURL ANIMATIONS
+------------------------------ */
+
+/* -----------------------------
+   CORNER CURL — NEW FIXED VERSION
+------------------------------ */
+
+/* Base shape */
+/* -----------------------------
+   CORNER CURL — TRIANGULAR BUT ORGANIC
+------------------------------ */
+
+.page::after,
+.page::before {
+  content: "";
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  bottom: 0;
+
+  /* feathering + base shadow */
+  filter: blur(1.1px) drop-shadow(4px 4px 6px rgba(0,0,0,0.35));
+
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.25s ease,
+    transform 0.35s ease,
+    filter 0.35s ease;
+
+  /* triangle shape */
+  clip-path: polygon(100% 100%, 0% 100%, 100% 0%);
+}
+
+
+/* RIGHT side curl */
+.page::after {
+  right: 0;
+
+  background: linear-gradient(
+      135deg,
+      rgba(255, 240, 200, 0.70) 0%,
+      rgba(210, 185, 140, 0.55) 45%,
+      rgba(80, 65, 50, 0.40) 75%,
+      rgba(0,0,0,0) 100%
+  );
+
+  /* tucked under page initially */
+  transform: translate(50px, 50px) rotate(0deg);
+}
+
+/* on hover: lift + stronger shadow */
+.page.hover-corner::after {
+  opacity: 1;
+  transform: translate(0px, 0px) rotate(-16deg);
+  filter: blur(0.8px) drop-shadow(10px 10px 10px rgba(0,0,0,0.55));
+}
+
+/* LEFT side curl */
+.page::before {
+  left: 0;
+
+  /* mirrored triangle */
+  clip-path: polygon(0% 100%, 100% 100%, 0% 0%);
+
+  background: linear-gradient(
+      -135deg,
+      rgba(255, 240, 200, 0.70) 0%,
+      rgba(210, 185, 140, 0.55) 45%,
+      rgba(80, 65, 50, 0.40) 75%,
+      rgba(0,0,0,0) 100%
+  );
+
+  transform: translate(-50px, 50px) rotate(0deg);
+}
+
+/* on hover: lift + shadow in opposite direction */
+.page.hover-corner-left::before {
+  opacity: 1;
+  transform: translate(0px, 0px) rotate(16deg);
+  filter: blur(0.8px) drop-shadow(-10px 10px 10px rgba(0,0,0,0.55));
+}
+
+/* Disable left curl on first page */
+.page:first-child::before,
+.page:first-child .area-prev {
+  display: none;
+}
+
+/* Disable right curl on last page */
+.page:last-child::after,
+.page:last-child .area-next {
+  display: none;
+}
+
+
+
+/* -----------------------------
+   CORNER CLICK ZONES
+------------------------------ */
+
+.corner-zone {
+  position: absolute;
+  bottom: 0;
+  width: 140px;
+  height: 140px;
+  pointer-events: none;
+  z-index: 200;
+}
+
+.area-next { right: 0; }
+.area-prev { left: 0; }
+
+.corner-hover {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.corner-click {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  bottom: 0;
+  right: 0;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 300;
+}
+
+.area-prev .corner-click {
+  left: 0;
+  right: auto;
+}
+
+/* Cursor when curl visible */
+.page.hover-corner,
+.page.hover-corner-left {
+  cursor: pointer;
+}
