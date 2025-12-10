@@ -20,6 +20,76 @@ body{
   overflow:hidden;
 }
 
+/* =========================
+   MAIN MENU OVERLAY
+========================= */
+
+#main-menu {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at center, rgba(20,12,6,0.85), rgba(5,3,2,0.95)),
+    url("../Assets/paper/parchment.jpg") center/cover;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#main-menu.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.menu-panel {
+  text-align: center;
+  padding: 40px 60px;
+  background: rgba(0,0,0,0.45);
+  border: 2px solid rgba(242,224,182,0.25);
+  box-shadow: 0 0 40px rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  max-width: 520px;
+}
+
+.menu-title {
+  font-family: "IM Fell English", serif;
+  font-size: 3rem;
+  margin-bottom: 10px;
+  color: var(--accent);
+  text-shadow: 0 0 12px rgba(242,224,182,0.25);
+}
+
+.menu-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #e6d3aa;
+  opacity: 0.9;
+}
+
+#enter-world-btn {
+  background: linear-gradient(
+    180deg,
+    rgba(242,224,182,0.25),
+    rgba(0,0,0,0.6)
+  );
+  border: 2px solid rgba(242,224,182,0.4);
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  color: var(--accent);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#enter-world-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 18px rgba(242,224,182,0.35);
+}
+
+
 /* Map wrapper fills viewport */
 #map-wrapper{
   position:relative;
@@ -29,6 +99,7 @@ body{
   display:block;
   overflow:hidden;
   touch-action:none;
+  opacity: 1;
 }
 
 /* Background image - scale responsively and maintain aspect ratio */

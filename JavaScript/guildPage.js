@@ -93,4 +93,61 @@ pages.forEach(pg => {
   });
 });
 
+// =========================
+// HARD RESET MAP OVERLAY ON PAGE LOAD
+// =========================
+document.addEventListener("DOMContentLoaded", () => {
+  const mapOverlay = document.getElementById("map-overlay");
+
+  if (mapOverlay) {
+    mapOverlay.classList.add("hidden");
+    mapOverlay.style.opacity = "0";
+    mapOverlay.style.pointerEvents = "none";
+  }
+});
+
+
+// =========================
+// GLOBAL MAP NAVIGATION — FULLY LOCKED SAFE
+// =========================
+
+document.addEventListener("DOMContentLoaded", () => {
+  const openBtn = document.getElementById("open-map-btn");
+  const closeBtn = document.getElementById("close-map-btn");
+  const mapOverlay = document.getElementById("map-overlay");
+
+  if (!openBtn || !closeBtn || !mapOverlay) return;
+
+  // ✅ ALWAYS open cleanly
+  openBtn.addEventListener("click", () => {
+    mapOverlay.classList.remove("hidden");
+    mapOverlay.style.opacity = "1";
+    mapOverlay.style.pointerEvents = "auto";
+  });
+
+  // ✅ ALWAYS close cleanly
+  closeBtn.addEventListener("click", () => {
+    mapOverlay.classList.add("hidden");
+    mapOverlay.style.opacity = "0";
+    mapOverlay.style.pointerEvents = "none";
+  });
+});
+
+// =========================
+// LISTEN FOR MAP CLOSE SIGNAL
+// =========================
+
+window.addEventListener("message", (event) => {
+  if (event.data === "close-map-overlay") {
+    const mapOverlay = document.getElementById("map-overlay");
+    if (!mapOverlay) return;
+
+    mapOverlay.classList.add("hidden");
+    mapOverlay.style.opacity = "0";
+    mapOverlay.style.pointerEvents = "none";
+  }
+});
+
+
+
 updatePages();

@@ -120,6 +120,61 @@ body {
   overflow: hidden;
 }
 
+/* -----------------------------
+   GUILD CARD LAYOUT (PAGE 1)
+------------------------------ */
+
+.guild-card {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 30px;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Portrait container */
+.guild-portrait-box {
+  width: 100%;
+  height: 100%;
+  max-width: 300px;
+  max-height: 408px;
+  aspect-ratio: 3 / 4;
+  border: 4px solid var(--accent);
+  box-shadow:
+    inset 0 0 18px rgba(0,0,0,0.4),
+    0 6px 16px rgba(0,0,0,0.5);
+  overflow: hidden;
+  background: rgba(0,0,0,0.2);
+}
+
+/* Portrait image */
+.guild-portrait-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Right-side text */
+.guild-card-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Mobile stacking */
+@media (max-width: 900px) {
+  .guild-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .guild-portrait-box {
+    margin: 0 auto 20px auto;
+  }
+}
+
+
 .stats-list {
   list-style: none;
   padding: 0;
@@ -266,4 +321,91 @@ body {
 .page.hover-corner,
 .page.hover-corner-left {
   cursor: pointer;
+}
+
+/* =========================
+   GLOBAL MAP NAVIGATION
+========================= */
+
+.map-nav-btn {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 9000;
+
+  font-size: 1.5rem;
+  padding: 10px 14px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: rgba(20,12,6,0.85);
+  color: var(--accent);
+  cursor: pointer;
+
+  box-shadow: 0 0 12px rgba(0,0,0,0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.map-nav-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 18px rgba(255,215,160,0.4);
+}
+
+/* =========================
+   MAP OVERLAY
+========================= */
+
+#map-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+
+  background: rgba(5, 3, 2, 0.92);
+  display: flex;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+#map-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#map-overlay:not(.hidden) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Header bar */
+.map-close-btn {
+  position: fixed;
+  top: 16px;
+  right: 18px;
+  z-index: 9600;
+
+  font-size: 1.4rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+
+  border: 2px solid var(--accent);
+  background: rgba(20,12,6,0.85);
+  color: var(--accent);
+  cursor: pointer;
+
+  box-shadow: 0 0 12px rgba(0,0,0,0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.map-close-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 18px rgba(255,215,160,0.4);
+}
+
+
+/* The iframe map itself */
+.map-iframe {
+  flex: 1;
+  width: 100%;
+  border: none;
 }

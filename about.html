@@ -10,6 +10,12 @@
 
 <body>
 
+<!-- GLOBAL MAP BUTTON -->
+<button id="open-map-btn" class="map-nav-btn" aria-label="Open World Map">
+  🧭
+</button>
+
+
   <div class="book-wrapper">
     <div class="book-container">
 
@@ -25,10 +31,26 @@
           <h1 class="page-title">Adventurer’s Guild Record</h1>
           <div class="divider"></div>
 
-          <p class="page1Text">
-            Welcome, traveler.  
-            These pages contain the recorded tales, origins, and achievements of the adventurer whose path winds between code, creation, and discovery.
-          </p>
+           <!-- GUILD CARD LAYOUT -->
+  <div class="guild-card">
+
+    <!-- LEFT: PORTRAIT -->
+    <div class="guild-portrait-box">
+      <img 
+        src="Assets/guildPageAssets/selfPhotoCrop.jpeg" 
+        alt="Adventurer Portrait"
+      />
+    </div>
+
+    <!-- RIGHT: TEXT -->
+    <div class="guild-card-text">
+      <p class="page1Text">
+        Welcome, traveler.  
+        These pages contain the recorded tales, origins, and achievements of the adventurer whose path winds between code, creation, and discovery.
+      </p>
+    </div>
+
+  </div>
         </section>
 
         <!-- PAGE 2 -->
@@ -109,6 +131,22 @@
       </div>
     </div>
   </div>
+
+  <!-- MAP MENU OVERLAY -->
+<div id="map-overlay" class="hidden">
+
+  <!-- Close button ONLY -->
+  <button id="close-map-btn" class="map-close-btn">✖</button>
+
+  <iframe 
+    src="index.html" 
+    class="map-iframe" 
+    title="World Map Navigation">
+  </iframe>
+
+</div>
+
+
 
   <script src="../JavaScript/guildPage.js"></script>
 

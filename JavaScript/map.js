@@ -366,5 +366,58 @@ function handleMove(e) {
   }
   animateTooltipGlow();
 
+// =========================
+// MAIN MENU (FIRST LOAD ONLY) — IFRAME SAFE
+// =========================
+
+document.addEventListener("DOMContentLoaded", () => {
+  const mainMenu = document.getElementById("main-menu");
+  const enterBtn = document.getElementById("enter-world-btn");
+  const mapWrapper = document.getElementById("map-wrapper");
+
+  // ✅ If page is loaded INSIDE an iframe, ALWAYS hide menu
+  if (window.self !== window.top) {
+    if (mainMenu) mainMenu.style.display = "none";
+    if (mapWrapper) mapWrapper.style.opacity = "1";
+    return;
+  }
+
+  const hasEntered = sessionStorage.getItem("enteredWorld");
+
+  // ✅ If already entered once, skip menu
+  if (hasEntered) {
+    if (mainMenu) mainMenu.style.display = "none";
+    if (mapWrapper) mapWrapper.style.opacity = "1";
+    return;
+  }
+
+  // ✅ First visit only
+  if (mainMenu && mapWrapper && enterBtn) {
+    mapWrapper.style.opacity = "0";
+
+    enterBtn.addEventListener("click", () => {
+      sessionStorage.setItem("enteredWorld", "true");
+      mainMenu.classList.add("hidden");
+      mapWrapper.style.opacity = "1";
+    });
+  }
+});
+
+// =========================
+// AUTO-CLOSE MAP OVERLAY AFTER NAVIGATION
+// =========================
+
+document.addEventListener("click", (e) => {
+  const target = e.target.closest(".marker");
+
+  if (!target) return;
+
+  // Tell parent to close the overlay
+  if (window.parent) {
+    window.parent.postMessage("close-map-overlay", "*");
+  }
+});
+
+
 
 })();
